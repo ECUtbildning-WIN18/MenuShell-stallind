@@ -11,14 +11,9 @@ namespace MenuShell
             var Initialize = new ViewHandler();
             
             DataBase.users.Add(new User(userName: "admin", password: "admin", role: "admin"));
+            DataBase.users.Add(new User(userName: "user", password: "user", role: "user"));
 
             Initialize.MainMenu();
-
-            //if (user.Role == "admin")
-            //{
-            //    var admin = new AdminView();
-            //    admin.DrawMenu();
-            //}
             
         }
     }

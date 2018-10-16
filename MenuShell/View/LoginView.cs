@@ -34,7 +34,7 @@ namespace MenuShell.View
                 Console.WriteLine("Welcome!");
                 Console.WriteLine($"Role: {LoggedOnUser.Role}");
 
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
 
                 if (LoggedOnUser.Role == "admin")
                 {

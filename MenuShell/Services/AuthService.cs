@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using MenuShell.Domain;
 
-
 namespace MenuShell.Services
 {
     class AuthService : IAuthService

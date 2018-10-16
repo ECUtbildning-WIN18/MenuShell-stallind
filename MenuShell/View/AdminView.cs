@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MenuShell.Domain;
 using MenuShell.View;
+using System.Threading;
 
 namespace MenuShell.View
 {
@@ -64,6 +65,8 @@ namespace MenuShell.View
             var role = Console.ReadLine();
            
             users.Add(new User(username, password, role));
+            Console.WriteLine("User added");
+            Thread.Sleep(1000);
             Console.Clear();
 
         }
@@ -105,8 +108,8 @@ namespace MenuShell.View
             Console.ReadLine();
 
             var GoBack = new AdminView();
-
-          //  GoBack.DrawMenu();
+            Console.Clear();
+            GoBack.DrawMenu(users);
         }
 
     }
