@@ -43,14 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\DataBase.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\IAuthService.cs" />
-    <Compile Include="View\AdminMenu.cs" />
+    <Compile Include="View\AdminView.cs" />
     <Compile Include="View\Confirmation.cs" />
     <Compile Include="View\LoginView.cs" />
+    <Compile Include="View\UserView.cs" />
     <Compile Include="View\ViewHandler.cs" />
   </ItemGroup>
   <ItemGroup>

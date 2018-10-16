@@ -6,11 +6,11 @@ namespace MenuShell.Services
 {
     class AuthService : IAuthService
     {
-        public User Auth(string username, string password, List<User> users)
+        public User Auth(string username, string password)
         {
             User _user = null;
 
-            foreach (User user in users)
+            foreach (User user in DataBase.users)
             {
                 if (user.UserName == username && user.Password == password)
                 {

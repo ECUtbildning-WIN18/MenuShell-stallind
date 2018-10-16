@@ -9,16 +9,16 @@ namespace MenuShell
         static void Main(string[] args)
         {
             var Initialize = new ViewHandler();
-
-            var user = new User(userName:"admin", password:"admin", role:"admin");
+            
+            DataBase.users.Add(new User(userName: "admin", password: "admin", role: "admin"));
 
             Initialize.MainMenu();
 
-            if (user.Role == "admin")
-            {
-                var admin = new AdminMenu();
-                admin.AdminMain();
-            }
+            //if (user.Role == "admin")
+            //{
+            //    var admin = new AdminView();
+            //    admin.DrawMenu();
+            //}
             
         }
     }

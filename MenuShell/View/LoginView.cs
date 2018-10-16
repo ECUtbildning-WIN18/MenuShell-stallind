@@ -2,6 +2,7 @@
 using MenuShell.Services;
 using MenuShell.Domain;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace MenuShell.View
 {
@@ -10,13 +11,13 @@ namespace MenuShell.View
        
         public void Login()
         {
-            var LoggedOnUser = new AuthService(); // FEL
+            var authService = new AuthService(); 
 
-            var users = new List<User>();
-            {
-                users.Add(new User(userName: "admin", password: "admin", role: "admin"));
-                users.Add(new User(userName: "user", password: "user", role: "user"));
-            }
+            //var users = new List<User>();
+            //{
+            //    users.Add(new User(userName: "admin", password: "admin", role: "admin"));
+            //    users.Add(new User(userName: "user", password: "user", role: "user"));
+            //}
 
             Console.Write("Username: ");
             var username = Console.ReadLine();
@@ -24,13 +25,29 @@ namespace MenuShell.View
             Console.Write("Password: ");
             var password = Console.ReadLine();
 
-            LoggedOnUser.Auth(username, password, users);
+            var LoggedOnUser = authService.Auth(username, password);
 
 
             if (LoggedOnUser != null)
             {
+                Console.Clear();
                 Console.WriteLine("Welcome!");
-                //Console.WriteLine($"Role: {User.Role}");
+                Console.WriteLine($"Role: {LoggedOnUser.Role}");
+
+                Thread.Sleep(2000);
+
+                if (LoggedOnUser.Role == "admin")
+                {
+                    Console.Clear();
+                    var AdminView = new AdminView();
+                    AdminView.DrawMenu(DataBase.users);
+                }
+                else if (LoggedOnUser.Role == "user")
+                {
+                    Console.Clear();
+                    var userMenu = new UserView();
+                    userMenu.DrawMenu();
+                }
             }
             else
             {

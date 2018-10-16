@@ -5,9 +5,9 @@ using MenuShell.View;
 
 namespace MenuShell.View
 {
-    public class AdminMenu 
+    public class AdminView 
     {
-        public void AdminMain()
+        public void DrawMenu(List<User> users)
         {
 
             do
@@ -18,74 +18,83 @@ namespace MenuShell.View
                 Console.WriteLine("3. List all users.");
                 Console.WriteLine("4. Exit.");
 
-                var choice = new AdminMenu();
+                var choice = new AdminView();
 
                 ConsoleKey menuChoice = Console.ReadKey(true).Key;
 
                 switch (menuChoice)
                 {
                     case ConsoleKey.D1:
-                        choice.AddUser();
+                        choice.AddUser(users);
                         break;
+
                     case ConsoleKey.D2:
-                        choice.RemoveUser();
+                        choice.RemoveUser(users);
                         break;
+
                     case ConsoleKey.D3:
-                        choice.ListUsers();
+                        choice.ListUsers(users);
                         break;
+
                     case ConsoleKey.D4:
                         Environment.Exit(0);
                         break;
 
-                  
                 }
 
             } while (true);
 
         }
 
-
-        public void AddUser(string username, string password, string role, List<User> users)
+        public void AddUser(List<User> users)
         {
-            var user = new User(username, password, role);
-
-            Console.WriteLine("Admin view, add user");
+            Console.Clear();
+            Console.WriteLine("Admin view, add user: ");
 
             Console.Write("Username: ");
 
-            username = Console.ReadLine();
+            var username = Console.ReadLine();
 
             Console.Write("Password: ");
 
-            password = Console.ReadLine();
+            var password = Console.ReadLine();
 
             Console.Write("Role(user/admin): ");
 
-            role = Console.ReadLine();
-
+            var role = Console.ReadLine();
+           
             users.Add(new User(username, password, role));
+            Console.Clear();
 
         }
 
         public void RemoveUser(List<User> users)
         {
-            
+            Console.Clear();
+            User userToBeRemoved = null;
             foreach (User user in users)
             {
                 Console.WriteLine($" Username:{user.UserName}\n");
 
                 Console.Write("Type the username of which user to remove: ");
 
-                User toBeRemoved = Console.ReadLine();  // Hur fixa?
-
-                users.Remove(toBeRemoved);
-
+                string toBeRemoved = Console.ReadLine();  
+                for (int i = 0; i < users.Count; i++)
+                {
+                    if (users[i].UserName == toBeRemoved)
+                    {
+                       userToBeRemoved = users[i];
+                       break;
+                    }
+                }
             }
+            if (userToBeRemoved != null)
+            users.Remove(userToBeRemoved);
         }
 
         public void ListUsers(List<User> users)
         {
-
+            Console.Clear();
             foreach (User user in users)
             {
                 Console.WriteLine($" Username:{user.UserName} Role:{user.Role}\n");
@@ -95,9 +104,9 @@ namespace MenuShell.View
 
             Console.ReadLine();
 
-            var GoBack = new AdminMenu();
+            var GoBack = new AdminView();
 
-            GoBack.AdminMain();
+          //  GoBack.DrawMenu();
         }
 
     }

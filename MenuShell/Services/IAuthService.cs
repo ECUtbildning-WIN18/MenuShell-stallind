@@ -5,6 +5,6 @@ namespace MenuShell.Services
 {
     interface IAuthService
     {
-        User Auth(string userName, string password, List<User> _users);
+        User Auth(string userName, string password);
     }
 }
