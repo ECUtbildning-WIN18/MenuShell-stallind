@@ -8,12 +8,12 @@ namespace MenuShell
     {
         static void Main(string[] args)
         {
-            var Initialize = new ViewHandler();
+            var ViewHandler = new ViewHandler();
             
             DataBase.users.Add(new User(userName: "admin", password: "admin", role: "admin"));
             DataBase.users.Add(new User(userName: "user", password: "user", role: "user"));
 
-            Initialize.MainMenu();
+            ViewHandler.MainMenu();
             
         }
     }
