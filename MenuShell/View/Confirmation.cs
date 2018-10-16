@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace MenuShell.View
 {
-    class Confirmation : ViewHandler
+   public class Confirmation 
     {
         public void Confirm()
         {
@@ -12,7 +12,8 @@ namespace MenuShell.View
 
             do
             {
-                Console.WriteLine("Are you sure?\n (Y)es, (N)o");
+                Console.Clear();
+                Console.WriteLine("Are you sure you want to exit the program?\n (Y)es, (N)o");
 
                 var selection = Console.ReadKey(true).Key;
 
@@ -28,7 +29,7 @@ namespace MenuShell.View
                         var back = new ViewHandler();
                         Console.Clear();
                         Console.WriteLine("Returning to start menu.");
-                        Thread.Sleep(3000);
+                        Thread.Sleep(2000);
                         back.MainMenu();
                         break;
 

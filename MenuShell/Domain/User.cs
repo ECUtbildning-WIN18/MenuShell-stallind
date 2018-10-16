@@ -9,10 +9,10 @@ namespace MenuShell.Domain
 {
     public class User 
     {
-        Dictionary<string, User> usersDictionary = new Dictionary<string, User>();
-
         public string UserName { get; }
+
         public string Password { get; }
+
         public string Role { get; }
 
         public User(string userName, string password, string role)
@@ -21,8 +21,5 @@ namespace MenuShell.Domain
             Password = password;
             Role = role;
         }
-
-        
-
     }
 }

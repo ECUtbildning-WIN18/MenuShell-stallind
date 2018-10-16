@@ -1,32 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using MenuShell.Domain;
-using MenuShell.View;
+
 
 namespace MenuShell.Services
 {
-    class AuthService
+    class AuthService : IAuthService
     {
-
-        public void Auth(string userName, string password, string role)
+        public User Auth(string username, string password, List<User> users)
         {
+            User _user = null;
 
-            // check if user is part of list users
-           var user = AuthService (username, password);
-
-            if (user != null)
+            foreach (User user in users)
             {
-                Console.WriteLine("Welcome!");
-                Console.WriteLine($"Role: {user.Role}");
+                if (user.UserName == username && user.Password == password)
+                {
+                    _user = user;
+                    break;
+                }
             }
-            else
-            {
-                Console.WriteLine("Wrong username or password!");
-            }
-            
+            return _user;
         }
     }
 }

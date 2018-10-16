@@ -7,7 +7,7 @@ namespace MenuShell.View
     {
         public void MainMenu()
         {
-            var startMenu = true;
+            var isRunning = true;
 
             var loginView = new LoginView();
 
@@ -32,14 +32,9 @@ namespace MenuShell.View
                     case ConsoleKey.D2:
                         confirm.Confirm();
                         break;
-
-                    default:
-                        Console.Clear();
-                        Console.WriteLine("Not a valid selection, try again");
-                        break;
                 }
 
-            } while (startMenu);
+            } while (isRunning);
         }
     }
 }
