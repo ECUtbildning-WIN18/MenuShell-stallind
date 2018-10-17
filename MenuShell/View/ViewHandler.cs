@@ -16,7 +16,6 @@ namespace MenuShell.View
             do
             {
                 Console.Clear();
-
                 Console.WriteLine("1. Login");
                 Console.WriteLine("2. Exit");
 
@@ -25,12 +24,17 @@ namespace MenuShell.View
                 switch (menuChoice)
                 {
                     case ConsoleKey.D1:
+
                         Console.Clear();
+
                         loginView.Login();
+
                         break;
 
                     case ConsoleKey.D2:
-                        confirm.Confirm();
+
+                        confirm.ConfirmExit();
+
                         break;
                 }
 

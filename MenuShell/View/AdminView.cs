@@ -13,6 +13,7 @@ namespace MenuShell.View
 
             do
             {
+                Console.Clear();
                 Console.WriteLine("Admin menu\n");
                 Console.WriteLine("1. Add user.");
                 Console.WriteLine("2. Remove user.");
@@ -26,19 +27,33 @@ namespace MenuShell.View
                 switch (menuChoice)
                 {
                     case ConsoleKey.D1:
+
                         choice.AddUser(users);
+
                         break;
 
                     case ConsoleKey.D2:
+
                         choice.RemoveUser(users);
+
                         break;
 
                     case ConsoleKey.D3:
+
                         choice.ListUsers(users);
+
                         break;
 
                     case ConsoleKey.D4:
+
                         Environment.Exit(0);
+
+                        break;
+
+                    default:
+
+                        Console.Clear();
+
                         break;
 
                 }
@@ -50,6 +65,7 @@ namespace MenuShell.View
         public void AddUser(List<User> users)
         {
             Console.Clear();
+
             Console.WriteLine("Admin view, add user: ");
 
             Console.Write("Username: ");
@@ -65,39 +81,79 @@ namespace MenuShell.View
             var role = Console.ReadLine();
            
             users.Add(new User(username, password, role));
-            Console.WriteLine("User added");
-            Thread.Sleep(1000);
+
+            Console.Clear();
+
+            Console.WriteLine($"User {username} was successfully added.");
+
+            Thread.Sleep(2000);
+
             Console.Clear();
 
         }
 
         public void RemoveUser(List<User> users)
         {
-            Console.Clear();
             User userToBeRemoved = null;
-            foreach (User user in users)
+
+            bool loop = true;
+
+            do
             {
-                Console.WriteLine($" Username:{user.UserName}\n");
 
-                Console.Write("Type the username of which user to remove: ");
-
-                string toBeRemoved = Console.ReadLine();  
-                for (int i = 0; i < users.Count; i++)
+                foreach (User user in users)
                 {
-                    if (users[i].UserName == toBeRemoved)
+                    Console.Clear();
+
+                    Console.Write("Type the username of which user to remove: ");
+
+                    string toBeRemoved = Console.ReadLine();
+
+                    for (int i = 0; i < users.Count; i++)
                     {
-                       userToBeRemoved = users[i];
-                       break;
+                        if (users[i].UserName == toBeRemoved)
+                        {
+                            userToBeRemoved = users[i];
+
+                            break;
+                        }
+                    }
+
+                    if (userToBeRemoved != null)
+                    {
+                        users.Remove(userToBeRemoved);
+
+                        Console.WriteLine($"{toBeRemoved} was removed from the system.");
+
+                        Thread.Sleep(1000);
+
+                        loop = false;
+
+                        break;
+                    }
+
+                    else if (toBeRemoved == "") 
+                    {
+                        loop = false;
+                    }
+
+                    else
+                    {
+                        Console.Clear();
+
+                        Console.WriteLine("User not found, try again!");
+
+                        Thread.Sleep(1000);
                     }
                 }
-            }
-            if (userToBeRemoved != null)
-            users.Remove(userToBeRemoved);
+            } while (loop);
+
         }
 
         public void ListUsers(List<User> users)
         {
             Console.Clear();
+
             foreach (User user in users)
             {
                 Console.WriteLine($" Username:{user.UserName} Role:{user.Role}\n");
@@ -108,7 +164,9 @@ namespace MenuShell.View
             Console.ReadLine();
 
             var GoBack = new AdminView();
+
             Console.Clear();
+
             GoBack.DrawMenu(users);
         }
 
