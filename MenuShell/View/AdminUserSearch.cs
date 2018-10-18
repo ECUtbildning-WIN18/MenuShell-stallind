@@ -54,13 +54,9 @@ namespace MenuShell.View
             {
                 foreach (var search in searchList)
                 {
-                    if (searchList.Count > 0)
-                    {
                         Console.WriteLine($"Found the following users starting with or containing '{userSearch}'");
 
                         Console.WriteLine($"* {search.UserName}");
-                    }
-
                 }
             }
             
