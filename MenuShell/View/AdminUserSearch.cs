@@ -17,6 +17,8 @@ namespace MenuShell.View
         {
             do
             {
+                runningFindUser = true;
+
                 Console.Clear();
 
                 Console.Write("Enter search string:");
@@ -28,9 +30,12 @@ namespace MenuShell.View
                     List<User> searchList = users.FindAll(user => user.UserName.ToLower().Contains(userSearch.ToLower()));
 
                     PrintSearchList(searchList);
+                    
                 }
                 else
                 {
+                    Console.Clear();
+
                     Console.WriteLine("Invalid search string");
 
                     Thread.Sleep(1000);
@@ -41,13 +46,24 @@ namespace MenuShell.View
 
         public void PrintSearchList(List<User> searchList)
         {
-
-            foreach (var search in searchList)
+            if (searchList.Count == 0)
             {
-                Console.WriteLine($"Found the following users starting with or containing {userSearch}");
-
-                Console.WriteLine($"* {search.UserName}");
+                Console.WriteLine("No matches found.");
             }
+            else
+            {
+                foreach (var search in searchList)
+                {
+                    if (searchList.Count > 0)
+                    {
+                        Console.WriteLine($"Found the following users starting with or containing '{userSearch}'");
+
+                        Console.WriteLine($"* {search.UserName}");
+                    }
+
+                }
+            }
+            
 
             Console.WriteLine("\n\n\n");
 

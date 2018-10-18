@@ -10,6 +10,7 @@ namespace MenuShell
         {
 
             DataBase.users.Add(new User(userName: "admin", password: "admin", role: "admin"));
+            DataBase.users.Add(new User(userName: "a", password: "a", role: "admin"));
             DataBase.users.Add(new User(userName: "user", password: "user", role: "user"));
 
             var ViewHandler = new ViewHandler();
