@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using MenuShell.Domain;
 using MenuShell.View;
 using System.Threading;
 
 namespace MenuShell.View
 {
-    public class AdminView 
+    public class AdminView
     {
+        public static bool runningDrawMenu = true;
+
         public void DrawMenu(List<User> users)
         {
-
+            
             do
             {
                 Console.Clear();
@@ -18,7 +22,9 @@ namespace MenuShell.View
                 Console.WriteLine("1. Add user.");
                 Console.WriteLine("2. Remove user.");
                 Console.WriteLine("3. List all users.");
-                Console.WriteLine("4. Exit.");
+                Console.WriteLine("4. Search user.");
+                Console.WriteLine("5. Exit.");
+
 
                 var choice = new AdminView();
 
@@ -29,43 +35,47 @@ namespace MenuShell.View
                     case ConsoleKey.D1:
 
                         choice.AddUser(users);
-
                         break;
 
                     case ConsoleKey.D2:
 
                         choice.RemoveUser(users);
-
                         break;
 
                     case ConsoleKey.D3:
 
                         choice.ListUsers(users);
-
                         break;
 
                     case ConsoleKey.D4:
 
-                        Environment.Exit(0);
+                        var search = new AdminUserSearch();
+                        search.FindUser(users);
+                        break;
 
+                    case ConsoleKey.D5:
+
+                        Environment.Exit(0);
                         break;
 
                     default:
 
                         Console.Clear();
-
                         break;
-
                 }
 
-            } while (true);
+            } while (runningDrawMenu);
 
         }
 
         public void AddUser(List<User> users)
         {
-            Console.Clear();
+            var runningAddMenu = true;
 
+            do
+            {
+
+            Console.Clear();
             Console.WriteLine("Admin view, add user: ");
 
             Console.Write("Username: ");
@@ -79,16 +89,47 @@ namespace MenuShell.View
             Console.Write("Role(user/admin): ");
 
             var role = Console.ReadLine();
-           
-            users.Add(new User(username, password, role));
 
-            Console.Clear();
+            if (role == "" || password == "" || username == "")
+            {
+                Console.WriteLine("Fields cannot be blank");
 
-            Console.WriteLine($"User {username} was successfully added.");
+                Thread.Sleep(2000);
 
-            Thread.Sleep(2000);
+                Console.Clear();
+            }
 
-            Console.Clear();
+            else if (users.Any(user => user.UserName == username))
+            {
+                Console.WriteLine("Username is already taken, try again.");
+
+                Thread.Sleep(1000);
+            }
+
+            else if (role == "admin" || role == "user")
+            {
+                users.Add(new User(username, password, role));
+
+                Console.Clear();
+
+                Console.WriteLine($"User {username} was successfully added.");
+
+                Thread.Sleep(2000);
+
+                runningAddMenu = false;
+
+                Console.Clear();
+            }
+
+                else
+            {
+                Console.Clear();
+
+                Console.WriteLine("Invalid role");
+
+                Thread.Sleep(2000);
+            }
+            } while (runningAddMenu);
 
         }
 
@@ -96,7 +137,7 @@ namespace MenuShell.View
         {
             User userToBeRemoved = null;
 
-            bool loop = true;
+            bool runningRemoveUserMenu = true;
 
             do
             {
@@ -127,14 +168,14 @@ namespace MenuShell.View
 
                         Thread.Sleep(1000);
 
-                        loop = false;
+                        runningRemoveUserMenu = false;
 
                         break;
                     }
 
                     else if (toBeRemoved == "") 
                     {
-                        loop = false;
+                        runningRemoveUserMenu = false;
                     }
 
                     else
@@ -146,7 +187,7 @@ namespace MenuShell.View
                         Thread.Sleep(1000);
                     }
                 }
-            } while (loop);
+            } while (runningRemoveUserMenu);
 
         }
 
@@ -156,10 +197,10 @@ namespace MenuShell.View
 
             foreach (User user in users)
             {
-                Console.WriteLine($" Username:{user.UserName} Role:{user.Role}\n");
+                Console.WriteLine($" Username:{user.UserName} Role:{user.Role}\n\n");
             }
-
-            Console.WriteLine("Press any key to return to the admin menu.");
+            
+            Console.WriteLine("Press enter key to return to the admin menu.");
 
             Console.ReadLine();
 

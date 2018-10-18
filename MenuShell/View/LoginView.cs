@@ -2,6 +2,7 @@
 using MenuShell.Services;
 using MenuShell.Domain;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Channels;
 using System.Threading;
 
 namespace MenuShell.View
@@ -14,9 +15,11 @@ namespace MenuShell.View
             var authService = new AuthService(); 
 
             Console.Write("Username: ");
+
             var username = Console.ReadLine();
 
             Console.Write("Password: ");
+
             var password = Console.ReadLine();
 
             var LoggedOnUser = authService.Auth(username, password);
@@ -25,7 +28,8 @@ namespace MenuShell.View
             {
                 Console.Clear();
 
-                Console.WriteLine("Welcome!");
+                Console.WriteLine($"Welcome {username}");
+
                 Console.WriteLine($"Role: {LoggedOnUser.Role}");
 
                 Thread.Sleep(1000);
@@ -51,7 +55,11 @@ namespace MenuShell.View
             }
             else
             {
-                Console.WriteLine("Wrong username or password!");
+                Console.Clear();
+
+                Console.WriteLine("Wrong username or password, try again.");
+
+                Thread.Sleep(1000);
             }
         }
     }
