@@ -168,7 +168,7 @@ namespace MenuShell.View
             Console.Clear();
 
             GoBack.DrawMenu(users);
-        }
 
+        }
     }
 }

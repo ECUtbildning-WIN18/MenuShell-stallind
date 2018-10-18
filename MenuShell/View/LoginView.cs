@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace MenuShell.View
 {
-    class LoginView : AuthService
+    class LoginView 
     {
        
         public void Login()
@@ -14,11 +14,9 @@ namespace MenuShell.View
             var authService = new AuthService(); 
 
             Console.Write("Username: ");
-
             var username = Console.ReadLine();
 
             Console.Write("Password: ");
-
             var password = Console.ReadLine();
 
             var LoggedOnUser = authService.Auth(username, password);
@@ -28,7 +26,6 @@ namespace MenuShell.View
                 Console.Clear();
 
                 Console.WriteLine("Welcome!");
-
                 Console.WriteLine($"Role: {LoggedOnUser.Role}");
 
                 Thread.Sleep(1000);
