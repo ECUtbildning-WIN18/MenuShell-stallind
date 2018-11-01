@@ -9,28 +9,31 @@ namespace MenuShell.View
 {
     class AdminUserSearch
     {
-        public static bool runningFindUser = true;
+        public static bool RunningFindUser = true;
 
-        public static string userSearch = "";
+        public static string UserSearch = "";
 
-        public void FindUser(List<User> users)
+        public void FindUser()
         {
             do
             {
-                runningFindUser = true;
+                RunningFindUser = true;
 
                 Console.Clear();
 
                 Console.Write("Enter search string:");
 
-                userSearch = Console.ReadLine();
+                UserSearch = Console.ReadLine(); 
 
-                if (userSearch != string.Empty)
+                var databaseSQL = new DataBase();
+                
+                List<User> foundUsers = databaseSQL.UserSearch(UserSearch);
+
+                if (UserSearch != string.Empty)
                 {
-                    List<User> searchList = users.FindAll(user => user.UserName.ToLower().Contains(userSearch.ToLower()));
+                    List<User> searchList = foundUsers.FindAll(user => user.Username.ToLower().Contains(UserSearch.ToLower()));
 
                     PrintSearchList(searchList);
-                    
                 }
                 else
                 {
@@ -41,7 +44,7 @@ namespace MenuShell.View
                     Thread.Sleep(1000);
                 }
                 
-            } while (runningFindUser);
+            } while (RunningFindUser);
         }
 
         public void PrintSearchList(List<User> searchList)
@@ -54,12 +57,11 @@ namespace MenuShell.View
             {
                 foreach (var search in searchList)
                 {
-                        Console.WriteLine($"Found the following users starting with or containing '{userSearch}'");
+                        Console.WriteLine($"Found the following users starting with or containing '{UserSearch}'");
 
-                        Console.WriteLine($"* {search.UserName}");
+                        Console.WriteLine($"* {search.Username}");
                 }
             }
-            
 
             Console.WriteLine("\n\n\n");
 
@@ -67,7 +69,7 @@ namespace MenuShell.View
 
             if (ConsoleKey.B == Console.ReadKey(true).Key)
             {
-                runningFindUser = false;
+                RunningFindUser = false;
             }
         }
 

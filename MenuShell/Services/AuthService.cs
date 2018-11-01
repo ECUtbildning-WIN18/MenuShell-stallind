@@ -7,17 +7,11 @@ namespace MenuShell.Services
     {
         public User Auth(string username, string password)
         {
-            User _user = null;
+            var databaseUsers = new DataBase();
 
-            foreach (User user in DataBase.users)
-            {
-                if (user.UserName == username && user.Password == password)
-                {
-                    _user = user;
-                    break;
-                }
-            }
-            return _user;
-        }
+            databaseUsers.GetUsers();
+
+            return null;
+        } 
     }
 }

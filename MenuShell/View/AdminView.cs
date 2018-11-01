@@ -25,7 +25,6 @@ namespace MenuShell.View
                 Console.WriteLine("4. Search user.");
                 Console.WriteLine("5. Exit.");
 
-
                 var choice = new AdminView();
 
                 ConsoleKey menuChoice = Console.ReadKey(true).Key;
@@ -34,26 +33,27 @@ namespace MenuShell.View
                 {
                     case ConsoleKey.D1:
 
-                        choice.AddUser(users);
+                        choice.AddUser();
                         break;
 
                     case ConsoleKey.D2:
 
-                        choice.RemoveUser(users);
+                       choice.RemoveUser();
                         break;
 
                     case ConsoleKey.D3:
-
-                        choice.ListUsers(users);
+                        
+                        choice.ListUsers();
                         break;
 
                     case ConsoleKey.D4:
 
                         var search = new AdminUserSearch();
-                        search.FindUser(users);
+                        
+                        search.FindUser(); 
                         break;
 
-                    case ConsoleKey.D5:
+                    case ConsoleKey.D5: 
 
                         Environment.Exit(0);
                         break;
@@ -68,13 +68,12 @@ namespace MenuShell.View
 
         }
 
-        public void AddUser(List<User> users)
+        public void AddUser()
         {
             var runningAddMenu = true;
 
             do
             {
-
             Console.Clear();
             Console.WriteLine("Admin view, add user: ");
 
@@ -99,16 +98,11 @@ namespace MenuShell.View
                 Console.Clear();
             }
 
-            else if (users.Any(user => user.UserName == username))
-            {
-                Console.WriteLine("Username is already taken, try again.");
-
-                Thread.Sleep(1000);
-            }
-
             else if (role == "admin" || role == "user")
             {
-                users.Add(new User(username, password, role));
+               var databaseSQL = new DataBase();
+               User newUser = new User(username, password, role);
+               databaseSQL.AddUser(newUser);
 
                 Console.Clear();
 
@@ -121,7 +115,7 @@ namespace MenuShell.View
                 Console.Clear();
             }
 
-                else
+            else
             {
                 Console.Clear();
 
@@ -133,82 +127,38 @@ namespace MenuShell.View
 
         }
 
-        public void RemoveUser(List<User> users)
+        public void RemoveUser()
         {
-            User userToBeRemoved = null;
+            var databaseSQL = new DataBase();
+          
+            Console.Clear();
+            Console.Write("Type the username of which user to remove: ");
 
-            bool runningRemoveUserMenu = true;
+            var userRemoveInput = Console.ReadLine();
 
-            do
+            var removeSuccess = databaseSQL.RemoveUser(userRemoveInput);
+
+            if (removeSuccess == 1)
             {
-
-                foreach (User user in users)
-                {
-                    Console.Clear();
-
-                    Console.Write("Type the username of which user to remove: ");
-
-                    string toBeRemoved = Console.ReadLine();
-
-                    for (int i = 0; i < users.Count; i++)
-                    {
-                        if (users[i].UserName == toBeRemoved)
-                        {
-                            userToBeRemoved = users[i];
-
-                            break;
-                        }
-                    }
-
-                    if (userToBeRemoved != null)
-                    {
-                        users.Remove(userToBeRemoved);
-
-                        Console.WriteLine($"{toBeRemoved} was removed from the system.");
-
-                        Thread.Sleep(1000);
-
-                        runningRemoveUserMenu = false;
-
-                        break;
-                    }
-
-                    else if (toBeRemoved == "") 
-                    {
-                        runningRemoveUserMenu = false;
-                    }
-
-                    else
-                    {
-                        Console.Clear();
-
-                        Console.WriteLine("User not found, try again!");
-
-                        Thread.Sleep(1000);
-                    }
-                }
-            } while (runningRemoveUserMenu);
-
+               Console.WriteLine($"{userRemoveInput} was removed from the system.");
+                   
+               Thread.Sleep(1500);
+            }
         }
 
-        public void ListUsers(List<User> users)
+        public void ListUsers()
         {
             Console.Clear();
 
-            foreach (User user in users)
-            {
-                Console.WriteLine($" Username:{user.UserName} Role:{user.Role}\n\n");
-            }
-            
-            Console.WriteLine("Press enter key to return to the admin menu.");
+            var getUser = new DataBase();
+
+            getUser.GetUsers();
+          
+            Console.WriteLine("Press enter to return to the admin menu.");
 
             Console.ReadLine();
 
-            var GoBack = new AdminView();
-
             Console.Clear();
-
-            GoBack.DrawMenu(users);
 
         }
     }

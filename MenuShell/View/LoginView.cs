@@ -12,8 +12,6 @@ namespace MenuShell.View
        
         public void Login()
         {
-            var authService = new AuthService(); 
-
             Console.Write("Username: ");
 
             var username = Console.ReadLine();
@@ -22,8 +20,10 @@ namespace MenuShell.View
 
             var password = Console.ReadLine();
 
-            var LoggedOnUser = authService.Auth(username, password);
+            var databaseSQL = new DataBase();
 
+            var LoggedOnUser = databaseSQL.Validate(username, password);
+          
             if (LoggedOnUser != null)
             {
                 Console.Clear();
