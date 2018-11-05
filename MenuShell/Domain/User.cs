@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MenuShell.View;
-
-namespace MenuShell.Domain
+﻿namespace MenuShell.Domain
 {
-    public class User 
+    public class User
     {
-        public string Username { get; }
-
-        public string Password { get; }
-
-        public string Role { get; }
+        public User()
+        {
+        }
 
         public User(string username, string password, string role)
         {
@@ -21,5 +12,13 @@ namespace MenuShell.Domain
             Password = password;
             Role = role;
         }
+
+        public int Id { get; set; }
+
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+
+        public string Role { get; set; }
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Threading;
 
 namespace MenuShell.View
 {
-   public class Confirmation 
+    public class ConfirmExitView
     {
-        public void ConfirmExit()
+        public static void ConfirmExit()
         {
-            var loop = true;
+            var isRunning = true;
 
             do
             {
@@ -20,27 +19,18 @@ namespace MenuShell.View
 
                 switch (selection)
                 {
-
                     case ConsoleKey.Y:
 
-                        Environment.Exit(0);
+                        Console.Clear();
+                        Console.WriteLine("Goodbye!");
 
+                        Environment.Exit(0);
                         break;
 
                     case ConsoleKey.N:
 
                         Console.Clear();
-
-                        var back = new ViewHandler();
-
-                        Console.Clear();
-
-                        Console.WriteLine("Returning to start menu.");
-
-                        Thread.Sleep(2000);
-
-                        back.MainMenu();
-
+                        isRunning = false;
                         break;
 
                     default:
@@ -55,12 +45,7 @@ namespace MenuShell.View
 
                         break;
                 }
-
-            } while (loop);
-
-
+            } while (isRunning);
         }
     }
-} 
-
-
+}

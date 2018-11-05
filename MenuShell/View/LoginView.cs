@@ -1,15 +1,12 @@
 ﻿using System;
-using MenuShell.Services;
-using MenuShell.Domain;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Channels;
 using System.Threading;
+using MenuShell.Domain;
+using MenuShell.Services;
 
 namespace MenuShell.View
 {
-    class LoginView 
+    internal class LoginView
     {
-       
         public void Login()
         {
             Console.Write("Username: ");
@@ -20,31 +17,30 @@ namespace MenuShell.View
 
             var password = Console.ReadLine();
 
-            var databaseSQL = new DataBase();
+            var EFSQL = new AuthService();
 
-            var LoggedOnUser = databaseSQL.Validate(username, password);
-          
-            if (LoggedOnUser != null)
+            var loggedOnUser = EFSQL.Auth(username, password);
+
+            if (loggedOnUser != null)
             {
                 Console.Clear();
 
                 Console.WriteLine($"Welcome {username}");
 
-                Console.WriteLine($"Role: {LoggedOnUser.Role}");
+                Console.WriteLine($"Role: {loggedOnUser.Role}");
 
                 Thread.Sleep(1000);
 
-                if (LoggedOnUser.Role == "admin")
+                if (loggedOnUser.Role == "admin")
                 {
                     Console.Clear();
 
-                    var AdminView = new AdminView();
+                    var adminView = new AdminView();
 
-                    AdminView.DrawMenu(DataBase.users);
-
+                    adminView.DrawMenu(DataBase.users);
                 }
 
-                else if (LoggedOnUser.Role == "user")
+                else if (loggedOnUser.Role == "user")
                 {
                     Console.Clear();
 

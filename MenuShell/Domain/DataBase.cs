@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Security.Claims;
-using System.Security.Cryptography;
 
 namespace MenuShell.Domain
 {
     public class DataBase
 
     {
-        public static List<User> users { get; set; } = new List<User>();
+        private readonly string connectionString =
+            "Data Source=(local);Initial Catalog=MenuShell;Integrated Security=true";
 
-        string connectionString = "Data Source=(local);Initial Catalog=MenuShell;Integrated Security=true";
+        public static List<User> users { get; set; } = new List<User>();
 
         public void AddUser(User user)
         {
-            string queryString = $"INSERT INTO [User] VALUES ('{user.Username}','{user.Password}', '{user.Role}')";
+            var queryString = $"INSERT INTO [User] VALUES ('{user.Username}','{user.Password}', '{user.Role}')";
 
             DatabaseInteract(queryString);
         }
 
         public int RemoveUser(string username)
         {
-            string queryString = $"DELETE FROM [User] WHERE Username = '{username}'";
+            var queryString = $"DELETE FROM [User] WHERE Username = '{username}'";
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -31,10 +29,10 @@ namespace MenuShell.Domain
 
                 try
                 {
-                  connection.Open();
+                    connection.Open();
 
-                  var reader = sqlCommand.ExecuteNonQuery();
-                   
+                    var reader = sqlCommand.ExecuteNonQuery();
+
                     return reader;
                 }
 
@@ -48,7 +46,7 @@ namespace MenuShell.Domain
 
         public List<User> UserSearch(string searchTerm)
         {
-            string queryString = $"SELECT Username, [Password], [Role] FROM [User] WHERE Username LIKE '%{searchTerm}%'";
+            var queryString = $"SELECT Username, [Password], [Role] FROM [User] WHERE Username LIKE '%{searchTerm}%'";
 
             var userList = new List<User>();
 
@@ -72,23 +70,23 @@ namespace MenuShell.Domain
                     {
                         Console.WriteLine($"Username {reader["Username"]} found");
 
-                        userList.Add(new User(username,password,role));
+                        userList.Add(new User(username, password, role));
                     }
                     else
                     {
                         Console.WriteLine("User not found");
                     }
-                } 
-              
+                }
+
                 reader.Close();
             }
-            return userList;
 
+            return userList;
         }
 
         public void GetUsers()
         {
-            string queryString = "SELECT Username, [Role] FROM [User]";
+            var queryString = "SELECT Username, [Role] FROM [User]";
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -97,11 +95,8 @@ namespace MenuShell.Domain
                 connection.Open();
 
                 var reader = sqlCommand.ExecuteReader();
-              
-                while (reader.Read())
-                {
-                  Console.WriteLine($"User: {reader["Username"]} - {reader["Role"]}");
-                }
+
+                while (reader.Read()) Console.WriteLine($"User: {reader["Username"]} - {reader["Role"]}");
 
                 reader.Close();
             }
@@ -118,7 +113,6 @@ namespace MenuShell.Domain
                     connection.Open();
 
                     var reader = sqlCommand.ExecuteReader();
-                    
 
                     reader.Close();
                 }
@@ -129,13 +123,12 @@ namespace MenuShell.Domain
 
                     throw;
                 }
-
             }
         }
 
         public User Validate(string username, string password)
         {
-            string queryString = $"SELECT Username, [Password], [Role] FROM [User]";
+            var queryString = "SELECT Username, [Password], [Role] FROM [User]";
 
             using (var connection = new SqlConnection(connectionString))
             {
@@ -146,7 +139,6 @@ namespace MenuShell.Domain
                 var reader = sqlCommand.ExecuteReader();
 
                 while (reader.Read())
-                {
                     if (reader["Username"].ToString() == username && reader["Password"].ToString() == password)
                     {
                         var role = reader["Role"].ToString();
@@ -155,7 +147,7 @@ namespace MenuShell.Domain
 
                         return user;
                     }
-                }
+
                 reader.Close();
                 return null;
             }
