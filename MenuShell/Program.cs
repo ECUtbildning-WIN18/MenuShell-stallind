@@ -1,21 +1,25 @@
 ﻿using MenuShell.Domain;
-using MenuShell.Services;
 using MenuShell.View;
 
 namespace MenuShell
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            // You need to create a table [Users] in database named MenuShell with:
+            // Id INT IDENTITY PRIMARY KEY
+            // Username varchar(100),
+            // Password varchar(50),
+            // Role varchar(10)
 
-            DataBase.users.Add(new User(userName: "admin", password: "admin", role: "admin"));
-            DataBase.users.Add(new User(userName: "user", password: "user", role: "user"));
-
-            var ViewHandler = new ViewHandler();
-
-            ViewHandler.MainMenu();
+            using (var ForRobert = new MenuShellDbContext())
+            {
+                ForRobert.Users.Add(new User("admin", "secret", "admin"));
+                ForRobert.SaveChanges();
+            }
             
+            ViewHandler.MainMenu();
         }
     }
 }

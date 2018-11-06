@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using MenuShell.Domain;
+﻿using MenuShell.Domain;
 
 namespace MenuShell.Services
 {
-    interface IAuthService
+    internal interface IAuthService
     {
-        User Auth(string userName, string password);
+        User Auth(string username, string password);
     }
 }

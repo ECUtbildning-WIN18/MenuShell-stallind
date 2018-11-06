@@ -1,23 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MenuShell.Domain;
 
 namespace MenuShell.Services
 {
-    class AuthService : IAuthService
+    internal class AuthService : IAuthService
     {
         public User Auth(string username, string password)
         {
-            User _user = null;
+            var userList = LoadUsers();
+            var user = userList.Find(x => x.Username == username && x.Password == password);
+            return user;
+        }
 
-            foreach (User user in DataBase.users)
+        public List<User> LoadUsers()
+        {
+            using (var db = new MenuShellDbContext())
             {
-                if (user.UserName == username && user.Password == password)
-                {
-                    _user = user;
-                    break;
-                }
+                return db.Users.ToList();
             }
-            return _user;
         }
     }
 }

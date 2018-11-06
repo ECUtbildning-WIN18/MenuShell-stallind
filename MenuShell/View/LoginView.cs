@@ -1,46 +1,46 @@
 ﻿using System;
-using MenuShell.Services;
-using MenuShell.Domain;
-using System.Collections.Generic;
 using System.Threading;
+using MenuShell.Domain;
+using MenuShell.Services;
 
 namespace MenuShell.View
 {
-    class LoginView 
+    internal class LoginView
     {
-       
         public void Login()
         {
-            var authService = new AuthService(); 
-
             Console.Write("Username: ");
+
             var username = Console.ReadLine();
 
             Console.Write("Password: ");
+
             var password = Console.ReadLine();
 
-            var LoggedOnUser = authService.Auth(username, password);
+            var EFSQL = new AuthService();
 
-            if (LoggedOnUser != null)
+            var loggedOnUser = EFSQL.Auth(username, password);
+
+            if (loggedOnUser != null)
             {
                 Console.Clear();
 
-                Console.WriteLine("Welcome!");
-                Console.WriteLine($"Role: {LoggedOnUser.Role}");
+                Console.WriteLine($"Welcome {username}");
+
+                Console.WriteLine($"Role: {loggedOnUser.Role}");
 
                 Thread.Sleep(1000);
 
-                if (LoggedOnUser.Role == "admin")
+                if (loggedOnUser.Role == "admin")
                 {
                     Console.Clear();
 
-                    var AdminView = new AdminView();
+                    var adminView = new AdminView();
 
-                    AdminView.DrawMenu(DataBase.users);
-
+                    adminView.DrawMenu(DataBase.users);
                 }
 
-                else if (LoggedOnUser.Role == "user")
+                else if (loggedOnUser.Role == "user")
                 {
                     Console.Clear();
 
@@ -51,7 +51,11 @@ namespace MenuShell.View
             }
             else
             {
-                Console.WriteLine("Wrong username or password!");
+                Console.Clear();
+
+                Console.WriteLine("Wrong username or password, try again.");
+
+                Thread.Sleep(1000);
             }
         }
     }

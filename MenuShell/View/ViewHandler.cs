@@ -1,17 +1,14 @@
 ﻿using System;
-using MenuShell.View;
 
 namespace MenuShell.View
 {
-    class ViewHandler
+    internal class ViewHandler
     {
-        public void MainMenu()
+        public static void MainMenu()
         {
             var isRunning = true;
 
             var loginView = new LoginView();
-
-            var confirm = new Confirmation();
 
             do
             {
@@ -19,7 +16,7 @@ namespace MenuShell.View
                 Console.WriteLine("1. Login");
                 Console.WriteLine("2. Exit");
 
-                ConsoleKey menuChoice = Console.ReadKey(true).Key;
+                var menuChoice = Console.ReadKey(true).Key;
 
                 switch (menuChoice)
                 {
@@ -33,11 +30,10 @@ namespace MenuShell.View
 
                     case ConsoleKey.D2:
 
-                        confirm.ConfirmExit();
+                        ConfirmExitView.ConfirmExit();
 
                         break;
                 }
-
             } while (isRunning);
         }
     }
